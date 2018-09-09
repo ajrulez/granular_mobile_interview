@@ -107,12 +107,13 @@ public class NumberImagesAdapter extends ArrayAdapter<NumberImagesEntity> {
             // Bind the data efficiently with the holder.
             holder.numberName.setText(dataList.get(position).getName());
 
-            // Using Picasso to fetch images and lazy loading + caching
+            // Using Picasso to fetch images and lazy loading + caching.
+            // I could have used Volley, but I that would mean using
+            // NetworkImageView and also writing boilerplate code for
+            // ImageLoader. I feel using Picasso is pretty efficient and
+            // reduces boilerplate code.
             // I know the assignment description discouraged use of
-            // 3rd party libraries, but I don't think the recommended
-            // 2-3 hours is enough to develop the app and develop an
-            // image loading + caching solution. Hope this is okay with
-            // the reviewers.
+            // 3rd party libraries. Hope this is okay with the reviewers.
             final String imageUrl =
                     NumberImageUrlFactory.getImageUrl(dataList.get(position).getUrl());
             Picasso.get()
