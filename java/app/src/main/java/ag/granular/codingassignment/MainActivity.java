@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NumberImageView {
     // I would have used a RecyclerView.
     private ListView listView;
 
+    // ProgressBar
+    private ProgressBar progressBar;
+
     // ListView Adapter
     private NumberImagesAdapter listAdapter;
 
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NumberImageView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        progressBar = findViewById(R.id.progressBar);
         listView = findViewById(R.id.numberListView);
         listAdapter = new NumberImagesAdapter(this, R.layout.list_row_item);
         listView.setAdapter(listAdapter);
@@ -120,6 +126,37 @@ public class MainActivity extends AppCompatActivity implements NumberImageView {
     @Override
     public boolean isGoingAway() {
         return isFinishing();
+    }
+
+    /**
+     * Method to show progress view when
+     * data is loading.
+     *
+     */
+    @Override
+    public void showProgress() {
+        try {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        catch (Exception e) {
+            // Nothing to do
+        }
+    }
+
+    /**
+     * Method to hide progress view when
+     * data has finished loading, or when
+     * view is going away.
+     *
+     */
+    @Override
+    public void hideProgress() {
+        try {
+            progressBar.setVisibility(View.GONE);
+        }
+        catch (Exception e) {
+            // Nothing to do
+        }
     }
 
     /**

@@ -15,4 +15,6 @@ public interface NumberImageView {
     void updateView(List<NumberImagesEntity> numberImageList);
     Context getContext();
     boolean isGoingAway();
+    void showProgress();
+    void hideProgress();
 }

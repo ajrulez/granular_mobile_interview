@@ -49,6 +49,7 @@ public class NumberImagePresenterImpl implements NumberImagePresenter,
         Log.i(TAG, "removeView called - dispose response from here on");
         // Tell data fetcher to not send callback for the response
         dataFetcher.disposeResponse();
+        view.hideProgress(); // If the Progress bar is showing, hide it
         this.view = null;
     }
 
@@ -61,6 +62,7 @@ public class NumberImagePresenterImpl implements NumberImagePresenter,
     public void fetchNumberImageData() {
         Log.d(TAG, "fetchNumberImageData called");
         if (view != null && !view.isGoingAway()) {
+            view.showProgress();
             dataFetcher.retrieveNumberImages(view.getContext(), this);
         }
     }
@@ -78,6 +80,7 @@ public class NumberImagePresenterImpl implements NumberImagePresenter,
         if (view != null && !view.isGoingAway()) {
             Log.d(TAG, "onDataFetched - Valid view available, update it");
             view.updateView(numberImageList);
+            view.hideProgress();
         }
     }
 }
