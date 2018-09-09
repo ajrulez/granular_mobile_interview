@@ -14,7 +14,7 @@ import ag.granular.codingassignment.data.NumberImagesEntity;
 public interface NumberImageView {
     void updateView(List<NumberImagesEntity> numberImageList);
     Context getContext();
-    boolean isGoingAway();
+    boolean isAvailable();
     void showProgress();
     void hideProgress();
 }

@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity implements NumberImageView {
     // Log Tag
@@ -42,8 +43,12 @@ public class MainActivity extends AppCompatActivity implements NumberImageView {
     // ListView Adapter
     private NumberImagesAdapter listAdapter;
 
+    // View Available for updates
+    private AtomicBoolean viewAvailableForUpdates = new AtomicBoolean(false);
+
     /**
-     * Overridden onCreate to setup the Activity's View.
+     * Overridden onCreate to setup the Activity's View, and
+     * adds the View to the presenter.
      *
      * @param savedInstanceState - Bundle
      */
@@ -61,17 +66,43 @@ public class MainActivity extends AppCompatActivity implements NumberImageView {
         Log.i(TAG, "onCreate called with Bundle = " + (savedInstanceState != null));
         presenter = new NumberImagePresenterImpl();
         presenter.addView(this);
+        viewAvailableForUpdates.compareAndSet(false, true);
         populateViewData(savedInstanceState);
     }
 
     /**
-     * Overridden onDestroy.
+     * Overridden onResume
+     *
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume called - View available for updates");
+        viewAvailableForUpdates.compareAndSet(false, true);
+    }
+
+
+    /**
+     * Overridden onPause
+     *
+     */
+    @Override
+    protected void onPause() {
+        Log.i(TAG, "onPause called - View not available for updates");
+        viewAvailableForUpdates.compareAndSet(true, false);
+        super.onPause();
+    }
+
+    /**
+     * Overridden onDestroy - Removes the view
+     * from presenter.
      *
      */
     @Override
     protected void onDestroy() {
         Log.i(TAG, "onDestroy called - Remove the view from presenter");
         // Remove View from Presenter
+        viewAvailableForUpdates.compareAndSet(true, false);
         presenter.removeView();
         super.onDestroy();
     }
@@ -119,13 +150,14 @@ public class MainActivity extends AppCompatActivity implements NumberImageView {
     }
 
     /**
-     * Implementation of NumberImageView.isGoingAway
+     * Implementation of NumberImageView.isAvailable
      *
-     * @return true if View is finishing, false otherwise
+     * @return true if View is available for updates,
+     * false otherwise
      */
     @Override
-    public boolean isGoingAway() {
-        return isFinishing();
+    public boolean isAvailable() {
+        return (!isFinishing() && viewAvailableForUpdates.get());
     }
 
     /**

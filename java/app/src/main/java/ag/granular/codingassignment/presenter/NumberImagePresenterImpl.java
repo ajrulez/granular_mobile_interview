@@ -61,7 +61,7 @@ public class NumberImagePresenterImpl implements NumberImagePresenter,
     @Override
     public void fetchNumberImageData() {
         Log.d(TAG, "fetchNumberImageData called");
-        if (view != null && !view.isGoingAway()) {
+        if (view != null && view.isAvailable()) {
             view.showProgress();
             dataFetcher.retrieveNumberImages(view.getContext(), this);
         }
@@ -77,7 +77,7 @@ public class NumberImagePresenterImpl implements NumberImagePresenter,
     public void onDataFetched(final boolean success,
                               @Nullable final List<NumberImagesEntity> numberImageList) {
         Log.i(TAG, "onDataFetched called with success = " + success);
-        if (view != null && !view.isGoingAway()) {
+        if (view != null && view.isAvailable()) {
             Log.d(TAG, "onDataFetched - Valid view available, update it");
             view.updateView(numberImageList);
             view.hideProgress();
