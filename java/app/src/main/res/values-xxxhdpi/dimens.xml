@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_row_top_padding">8dp</dimen>
+    <dimen name="list_row_bottom_padding">8dp</dimen>
+    <dimen name="list_row_start_padding">10dp</dimen>
+    <dimen name="list_row_end_padding">10dp</dimen>
+
+    <dimen name="image_height">96dp</dimen>
+    <dimen name="image_width">96dp</dimen>
+
+    <dimen name="name_text_size">17sp</dimen>
+
+    <dimen name="gap_between_image_text">20dp</dimen>
+
+    <dimen name="list_view_vertical_margin">8dp</dimen>
+    <dimen name="list_view_horizontal_margin">10dp</dimen>
+</resources>
